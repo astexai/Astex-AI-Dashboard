@@ -20,12 +20,15 @@ import {
 import { useCreateExpense } from "@/hooks/useExpenses";
 import { useToast } from "@/hooks/use-toast";
 
-export const AddExpenseDialog = () => {
+interface AddExpenseDialogProps {
+  trigger?: React.ReactNode;
+}
+
+export const AddExpenseDialog = ({ trigger }: AddExpenseDialogProps) => {
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("other");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [expenseType, setExpenseType] = useState("business");
   const createExpense = useCreateExpense();
   const { toast } = useToast();
 
@@ -34,17 +37,15 @@ export const AddExpenseDialog = () => {
     
     try {
       await createExpense.mutateAsync({
-        title,
+        description,
         amount: parseFloat(amount),
-        category,
-        date,
+        expense_type: expenseType,
       });
       toast({ title: "Expense added successfully" });
       setOpen(false);
-      setTitle("");
+      setDescription("");
       setAmount("");
-      setCategory("other");
-      setDate(new Date().toISOString().split("T")[0]);
+      setExpenseType("business");
     } catch (error) {
       toast({
         title: "Error adding expense",
@@ -56,10 +57,12 @@ export const AddExpenseDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">
-          <Plus className="h-4 w-4 mr-1" />
-          Add Expense
-        </Button>
+        {trigger || (
+          <Button size="sm">
+            <Plus className="h-4 w-4 mr-1" />
+            Add Expense
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -67,52 +70,37 @@ export const AddExpenseDialog = () => {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Description</Label>
+            <Label htmlFor="expenseType">Expense Type</Label>
+            <Select value={expenseType} onValueChange={setExpenseType}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="personal">Personal</SelectItem>
+                <SelectItem value="business">Business</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="description">Expense Description</Label>
             <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="What did you spend on?"
               required
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="amount">Amount ($)</Label>
-              <Input
-                id="amount"
-                type="number"
-                step="0.01"
-                min="0"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0.00"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="office">🏢 Office</SelectItem>
-                  <SelectItem value="software">💻 Software</SelectItem>
-                  <SelectItem value="travel">✈️ Travel</SelectItem>
-                  <SelectItem value="marketing">📢 Marketing</SelectItem>
-                  <SelectItem value="other">📦 Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
           <div className="space-y-2">
-            <Label htmlFor="date">Date</Label>
+            <Label htmlFor="amount">Expense Amount (INR)</Label>
             <Input
-              id="date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              id="amount"
+              type="number"
+              step="0.01"
+              min="0"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
               required
             />
           </div>
