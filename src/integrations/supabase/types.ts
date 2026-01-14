@@ -17,37 +17,61 @@ export type Database = {
       expenses: {
         Row: {
           amount: number
-          category: string
           created_at: string
-          date: string
+          description: string
+          expense_type: string
           id: string
-          project_id: string | null
-          title: string
           user_id: string
         }
         Insert: {
           amount: number
-          category?: string
           created_at?: string
-          date?: string
+          description: string
+          expense_type?: string
           id?: string
-          project_id?: string | null
-          title: string
           user_id: string
         }
         Update: {
           amount?: number
-          category?: string
+          created_at?: string
+          description?: string
+          expense_type?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      payments_received: {
+        Row: {
+          amount: number
+          client: string
+          created_at: string
+          date: string
+          id: string
+          project_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          client: string
           created_at?: string
           date?: string
           id?: string
           project_id?: string | null
-          title?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          client?: string
+          created_at?: string
+          date?: string
+          id?: string
+          project_id?: string | null
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "expenses_project_id_fkey"
+            foreignKeyName: "payments_received_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
@@ -58,57 +82,81 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          company_name: string | null
           created_at: string
           display_name: string | null
           id: string
           updated_at: string
           user_id: string
+          username: string | null
         }
         Insert: {
           avatar_url?: string | null
+          company_name?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
           updated_at?: string
           user_id: string
+          username?: string | null
         }
         Update: {
           avatar_url?: string | null
+          company_name?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
           updated_at?: string
           user_id?: string
+          username?: string | null
         }
         Relationships: []
       }
       projects: {
         Row: {
+          assigned_to: string | null
+          client: string | null
+          cost: number | null
           created_at: string
+          custom_type: string | null
           description: string | null
           id: string
           name: string
           progress: number
+          project_type: string | null
+          start_date: string | null
           status: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          assigned_to?: string | null
+          client?: string | null
+          cost?: number | null
           created_at?: string
+          custom_type?: string | null
           description?: string | null
           id?: string
           name: string
           progress?: number
+          project_type?: string | null
+          start_date?: string | null
           status?: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          assigned_to?: string | null
+          client?: string | null
+          cost?: number | null
           created_at?: string
+          custom_type?: string | null
           description?: string | null
           id?: string
           name?: string
           progress?: number
+          project_type?: string | null
+          start_date?: string | null
           status?: string
           updated_at?: string
           user_id?: string
@@ -117,6 +165,7 @@ export type Database = {
       }
       todos: {
         Row: {
+          assigned_to: string | null
           completed: boolean
           created_at: string
           due_date: string | null
@@ -128,6 +177,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          assigned_to?: string | null
           completed?: boolean
           created_at?: string
           due_date?: string | null
@@ -139,6 +189,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          assigned_to?: string | null
           completed?: boolean
           created_at?: string
           due_date?: string | null
@@ -152,6 +203,68 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "todos_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      varnix_payments: {
+        Row: {
+          amount: number
+          created_at: string
+          date: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          date?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          date?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      varnix_projects: {
+        Row: {
+          cost: number
+          created_at: string
+          id: string
+          project_id: string | null
+          project_name: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          cost?: number
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          project_name: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          cost?: number
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          project_name?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "varnix_projects_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"

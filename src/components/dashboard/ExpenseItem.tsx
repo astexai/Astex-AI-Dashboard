@@ -10,32 +10,29 @@ interface ExpenseItemProps {
 export const ExpenseItem = ({ expense }: ExpenseItemProps) => {
   const deleteExpense = useDeleteExpense();
 
-  const categoryIcons: Record<string, string> = {
-    office: "🏢",
-    software: "💻",
-    travel: "✈️",
-    marketing: "📢",
-    other: "📦",
+  const typeIcons: Record<string, string> = {
+    personal: "👤",
+    business: "💼",
   };
 
   return (
     <div className="flex items-center gap-3 p-3 border-b border-border last:border-b-0 hover:bg-secondary/50 transition-colors animate-slide-in group">
       <div className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center text-sm">
-        {categoryIcons[expense.category] || "📦"}
+        {typeIcons[expense.expense_type] || "💼"}
       </div>
       
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{expense.title}</p>
+        <p className="text-sm font-medium truncate">{expense.description}</p>
         <div className="flex items-center gap-2 mt-0.5">
-          <span className="text-xs text-muted-foreground capitalize">{expense.category}</span>
+          <span className="text-xs text-muted-foreground capitalize">{expense.expense_type}</span>
           <span className="text-xs text-muted-foreground">
-            {format(new Date(expense.date), "MMM d, yyyy")}
+            {format(new Date(expense.created_at), "MMM d, yyyy")}
           </span>
         </div>
       </div>
 
       <span className="font-medium tabular-nums">
-        ${Number(expense.amount).toFixed(2)}
+        ₹{Number(expense.amount).toFixed(2)}
       </span>
 
       <Button

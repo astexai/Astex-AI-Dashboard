@@ -9,6 +9,12 @@ export interface Project {
   description: string | null;
   status: string;
   progress: number;
+  project_type: string;
+  custom_type: string | null;
+  client: string | null;
+  start_date: string | null;
+  cost: number;
+  assigned_to: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -36,7 +42,16 @@ export const useCreateProject = () => {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async (project: { name: string; description?: string }) => {
+    mutationFn: async (project: {
+      name: string;
+      description?: string;
+      project_type?: string;
+      custom_type?: string;
+      client?: string;
+      start_date?: string;
+      cost?: number;
+      assigned_to?: string;
+    }) => {
       const { data, error } = await supabase
         .from("projects")
         .insert({

@@ -20,11 +20,16 @@ import {
 import { useCreateTodo } from "@/hooks/useTodos";
 import { useToast } from "@/hooks/use-toast";
 
-export const AddTodoDialog = () => {
+interface AddTodoDialogProps {
+  trigger?: React.ReactNode;
+}
+
+export const AddTodoDialog = ({ trigger }: AddTodoDialogProps) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("medium");
   const [dueDate, setDueDate] = useState("");
+  const [assignedTo, setAssignedTo] = useState("");
   const createTodo = useCreateTodo();
   const { toast } = useToast();
 
@@ -36,12 +41,14 @@ export const AddTodoDialog = () => {
         title,
         priority,
         due_date: dueDate || undefined,
+        assigned_to: assignedTo || undefined,
       });
       toast({ title: "Todo added successfully" });
       setOpen(false);
       setTitle("");
       setPriority("medium");
       setDueDate("");
+      setAssignedTo("");
     } catch (error) {
       toast({
         title: "Error adding todo",
@@ -53,10 +60,12 @@ export const AddTodoDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">
-          <Plus className="h-4 w-4 mr-1" />
-          Add Todo
-        </Button>
+        {trigger || (
+          <Button size="sm">
+            <Plus className="h-4 w-4 mr-1" />
+            Add Todo
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -64,7 +73,7 @@ export const AddTodoDialog = () => {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Task</Label>
+            <Label htmlFor="title">Task Name</Label>
             <Input
               id="title"
               value={title}
@@ -96,6 +105,15 @@ export const AddTodoDialog = () => {
                 onChange={(e) => setDueDate(e.target.value)}
               />
             </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="assignedTo">Assigned To</Label>
+            <Input
+              id="assignedTo"
+              value={assignedTo}
+              onChange={(e) => setAssignedTo(e.target.value)}
+              placeholder="Team member name"
+            />
           </div>
           <Button type="submit" className="w-full" disabled={createTodo.isPending}>
             {createTodo.isPending ? "Adding..." : "Add Todo"}

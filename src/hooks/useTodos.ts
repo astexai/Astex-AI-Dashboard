@@ -10,6 +10,7 @@ export interface Todo {
   completed: boolean;
   due_date: string | null;
   priority: string;
+  assigned_to: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -37,7 +38,13 @@ export const useCreateTodo = () => {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async (todo: { title: string; priority?: string; due_date?: string; project_id?: string }) => {
+    mutationFn: async (todo: {
+      title: string;
+      priority?: string;
+      due_date?: string;
+      project_id?: string;
+      assigned_to?: string;
+    }) => {
       const { data, error } = await supabase
         .from("todos")
         .insert({

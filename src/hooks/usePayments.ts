@@ -2,45 +2,44 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
-export interface Expense {
+export interface Payment {
   id: string;
   user_id: string;
-  expense_type: string;
-  description: string;
+  project_id: string | null;
+  client: string;
+  date: string;
   amount: number;
   created_at: string;
 }
 
-export const useExpenses = () => {
+export const usePayments = () => {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ["expenses", user?.id],
+    queryKey: ["payments", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("expenses")
+        .from("payments_received")
         .select("*")
-        .order("created_at", { ascending: false });
+        .order("date", { ascending: false });
 
       if (error) throw error;
-      return data as Expense[];
+      return data as Payment[];
     },
     enabled: !!user,
   });
 };
 
-export const useCreateExpense = () => {
+export const useCreatePayment = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async (expense: { description: string; amount: number; expense_type?: string }) => {
+    mutationFn: async (payment: { client: string; date: string; amount: number; project_id?: string }) => {
       const { data, error } = await supabase
-        .from("expenses")
+        .from("payments_received")
         .insert({
-          description: expense.description,
-          amount: expense.amount,
-          expense_type: expense.expense_type || "business",
+          ...payment,
           user_id: user!.id,
         })
         .select()
@@ -50,21 +49,21 @@ export const useCreateExpense = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
     },
   });
 };
 
-export const useDeleteExpense = () => {
+export const useDeletePayment = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("expenses").delete().eq("id", id);
+      const { error } = await supabase.from("payments_received").delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
     },
   });
 };

@@ -9,17 +9,14 @@ const Expenses = () => {
 
   const totalExpenses = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
 
-  const categoryTotals = expenses.reduce((acc, e) => {
-    acc[e.category] = (acc[e.category] || 0) + Number(e.amount);
+  const typeTotals = expenses.reduce((acc, e) => {
+    acc[e.expense_type] = (acc[e.expense_type] || 0) + Number(e.amount);
     return acc;
   }, {} as Record<string, number>);
 
-  const categoryLabels: Record<string, string> = {
-    office: "🏢 Office",
-    software: "💻 Software",
-    travel: "✈️ Travel",
-    marketing: "📢 Marketing",
-    other: "📦 Other",
+  const typeLabels: Record<string, string> = {
+    personal: "👤 Personal",
+    business: "💼 Business",
   };
 
   return (
@@ -36,17 +33,17 @@ const Expenses = () => {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          <div className="stat-card sm:col-span-2 lg:col-span-1 xl:col-span-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="stat-card">
             <p className="text-sm font-medium text-muted-foreground">Total Spent</p>
-            <p className="text-3xl font-bold mt-1">${totalExpenses.toFixed(2)}</p>
+            <p className="text-3xl font-bold mt-1">₹{totalExpenses.toFixed(2)}</p>
           </div>
-          {Object.entries(categoryTotals).map(([category, total]) => (
-            <div key={category} className="stat-card">
+          {Object.entries(typeTotals).map(([type, total]) => (
+            <div key={type} className="stat-card">
               <p className="text-sm font-medium text-muted-foreground">
-                {categoryLabels[category] || category}
+                {typeLabels[type] || type}
               </p>
-              <p className="text-xl font-bold mt-1">${total.toFixed(2)}</p>
+              <p className="text-xl font-bold mt-1">₹{total.toFixed(2)}</p>
             </div>
           ))}
         </div>
