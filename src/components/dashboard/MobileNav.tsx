@@ -34,9 +34,7 @@ export const MobileNav = () => {
           <SheetContent side="left" className="w-64 p-0">
             <div className="flex h-full flex-col">
               <div className="flex h-16 items-center border-b border-border px-4">
-                <h1 className="text-sm font-bold truncate">
-                  {profile?.company_name || "Business"} | Dashboard
-                </h1>
+                <h1 className="text-sm font-bold">Business Dashboard</h1>
               </div>
 
               <nav className="flex-1 space-y-1 p-4">

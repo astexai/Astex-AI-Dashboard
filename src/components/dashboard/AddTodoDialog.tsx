@@ -22,10 +22,15 @@ import { useToast } from "@/hooks/use-toast";
 
 interface AddTodoDialogProps {
   trigger?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const AddTodoDialog = ({ trigger }: AddTodoDialogProps) => {
-  const [open, setOpen] = useState(false);
+export const AddTodoDialog = ({ trigger, open: controlledOpen, onOpenChange: controlledOnOpenChange }: AddTodoDialogProps) => {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = isControlled ? (controlledOnOpenChange || (() => {})) : setInternalOpen;
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("medium");
   const [dueDate, setDueDate] = useState("");

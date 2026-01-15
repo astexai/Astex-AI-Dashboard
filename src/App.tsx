@@ -6,9 +6,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Todos from "./pages/Todos";
-import Expenses from "./pages/Expenses";
+import Payments from "./pages/Payments";
+import VarnixInvoice from "./pages/VarnixInvoice";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,9 +26,12 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/todos" element={<Todos />} />
-              <Route path="/expenses" element={<Expenses />} />
+              <Route path="/payments" element={<Payments />} />
+              <Route path="/invoice" element={<VarnixInvoice />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
