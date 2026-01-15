@@ -216,6 +216,7 @@ export type Database = {
           created_at: string
           date: string
           id: string
+          mode: string
           user_id: string
         }
         Insert: {
@@ -223,6 +224,7 @@ export type Database = {
           created_at?: string
           date?: string
           id?: string
+          mode?: string
           user_id: string
         }
         Update: {
@@ -230,14 +232,17 @@ export type Database = {
           created_at?: string
           date?: string
           id?: string
+          mode?: string
           user_id?: string
         }
         Relationships: []
       }
       varnix_projects: {
         Row: {
+          additional_cost: number
           cost: number
           created_at: string
+          development_cost: number
           id: string
           project_id: string | null
           project_name: string
@@ -245,8 +250,10 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          additional_cost?: number
           cost?: number
           created_at?: string
+          development_cost?: number
           id?: string
           project_id?: string | null
           project_name: string
@@ -254,8 +261,10 @@ export type Database = {
           user_id: string
         }
         Update: {
+          additional_cost?: number
           cost?: number
           created_at?: string
+          development_cost?: number
           id?: string
           project_id?: string | null
           project_name?: string
