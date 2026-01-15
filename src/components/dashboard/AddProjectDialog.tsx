@@ -25,6 +25,8 @@ interface AddProjectDialogProps {
   trigger?: React.ReactNode;
   editProject?: Project;
   onClose?: () => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 const projectTypes = [
@@ -35,8 +37,11 @@ const projectTypes = [
   { value: "custom", label: "Custom" },
 ];
 
-export const AddProjectDialog = ({ trigger, editProject, onClose }: AddProjectDialogProps) => {
-  const [open, setOpen] = useState(false);
+export const AddProjectDialog = ({ trigger, editProject, onClose, open: controlledOpen, onOpenChange: controlledOnOpenChange }: AddProjectDialogProps) => {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = isControlled ? (controlledOnOpenChange || (() => {})) : setInternalOpen;
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [projectType, setProjectType] = useState("fullstack");

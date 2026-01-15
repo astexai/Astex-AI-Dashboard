@@ -1,7 +1,6 @@
 import { LayoutDashboard, FolderKanban, CheckSquare, CreditCard, FileText, Settings, LogOut } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useProfile } from "@/hooks/useProfile";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 
@@ -17,17 +16,12 @@ const navItems = [
 export const DashboardSidebar = () => {
   const location = useLocation();
   const { signOut } = useAuth();
-  const { data: profile } = useProfile();
 
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-border bg-sidebar hidden lg:block">
       <div className="flex h-full flex-col">
         <div className="flex h-16 items-center justify-between border-b border-border px-4">
-          <div className="flex-1 min-w-0">
-            <h1 className="text-sm font-bold truncate">
-              {profile?.company_name || "Business"} | Dashboard
-            </h1>
-          </div>
+          <h1 className="text-sm font-bold">Business Dashboard</h1>
           <ThemeToggle />
         </div>
 
