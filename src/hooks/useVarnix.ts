@@ -8,6 +8,8 @@ export interface VarnixProject {
   project_id: string | null;
   project_name: string;
   cost: number;
+  development_cost: number;
+  additional_cost: number;
   status: string;
   created_at: string;
 }
@@ -17,6 +19,7 @@ export interface VarnixPayment {
   user_id: string;
   date: string;
   amount: number;
+  mode: string;
   created_at: string;
 }
 
@@ -43,7 +46,7 @@ export const useCreateVarnixProject = () => {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async (project: { project_id?: string; project_name: string; cost: number; status: string }) => {
+    mutationFn: async (project: { project_id?: string; project_name: string; cost: number; development_cost: number; additional_cost: number; status: string }) => {
       const { data, error } = await supabase
         .from("varnix_projects")
         .insert({
@@ -85,7 +88,7 @@ export const useCreateVarnixPayment = () => {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async (payment: { date: string; amount: number }) => {
+    mutationFn: async (payment: { date: string; amount: number; mode: string }) => {
       const { data, error } = await supabase
         .from("varnix_payments")
         .insert({
