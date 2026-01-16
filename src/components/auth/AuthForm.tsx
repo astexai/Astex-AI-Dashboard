@@ -57,7 +57,7 @@ export const AuthForm = () => {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md animate-fade-in">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Business Management</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Astex AI Business Management Dashboad</h1>
           <p className="text-muted-foreground mt-2">
             {isLogin ? "Sign in to your account" : "Create a new account"}
           </p>
