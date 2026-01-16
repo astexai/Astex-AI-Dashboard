@@ -129,12 +129,12 @@ export const AddProjectDialog = ({ trigger, editProject, onClose, open: controll
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        {trigger || (
+        {/* {trigger || (
           <Button size="sm">
             <Plus className="h-4 w-4 mr-1" />
-            Add Project
+            Add Projects
           </Button>
-        )}
+        )} */}
       </DialogTrigger>
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>

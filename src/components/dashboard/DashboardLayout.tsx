@@ -12,7 +12,7 @@ interface DashboardLayoutProps {
 
 export const DashboardLayout = ({ children, title, description, headerActions }: DashboardLayoutProps) => {
   const { data: profile } = useProfile();
-  const companyName = profile?.company_name || "Business";
+  const companyName = profile?.company_name || "Astex AI";
 
   return (
     <div className="min-h-screen bg-background">
@@ -21,7 +21,7 @@ export const DashboardLayout = ({ children, title, description, headerActions }:
       <main className="lg:pl-64 pt-16 lg:pt-0">
         {/* Top Header with Company Name */}
         <div className="hidden lg:flex h-16 items-center justify-between border-b border-border px-6 bg-card">
-          <h2 className="text-lg font-semibold">{companyName} | Business Dashboard</h2>
+          <h2 className="text-xl font-semibold">Business Dashboard</h2>
         </div>
         
         <div className="p-4 md:p-6 lg:p-8">

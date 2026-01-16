@@ -34,7 +34,7 @@ export const MobileNav = () => {
           <SheetContent side="left" className="w-64 p-0">
             <div className="flex h-full flex-col">
               <div className="flex h-16 items-center border-b border-border px-4">
-                <h1 className="text-sm font-bold">Business Dashboard</h1>
+                <h1 className="text-sm font-bold">Astex AI Dashboard</h1>
               </div>
 
               <nav className="flex-1 space-y-1 p-4">
@@ -73,9 +73,8 @@ export const MobileNav = () => {
         </Sheet>
 
         <h1 className="text-sm font-bold truncate max-w-[200px]">
-          {profile?.company_name || "Business"} | Dashboard
+          {profile?.company_name || "Astex AI |"} Bussiness Dashboard
         </h1>
-
         <ThemeToggle />
       </div>
     </div>

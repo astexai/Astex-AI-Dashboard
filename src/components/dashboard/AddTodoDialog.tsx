@@ -65,12 +65,12 @@ export const AddTodoDialog = ({ trigger, open: controlledOpen, onOpenChange: con
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger || (
+        {/* {trigger || (
           <Button size="sm">
             <Plus className="h-4 w-4 mr-1" />
             Add Todo
           </Button>
-        )}
+        )} */}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
